@@ -1,58 +1,48 @@
 import React from 'react'
-import Cars from './Cars';
-import { useEffect} from "react";
+import Cars from '../components/Cars';
+import { useEffect, useState} from "react";
 import {useSelector, useDispatch} from 'react-redux';
 import { getEndadv, getVipcars, getPremium } from '../store/actions';
-import clsx from "clsx";
-import { LoadingPosts } from './LoadingPosts';
-import { useRef } from "react";
-import { Card } from './Card';
-// const NUM_PER_PAGE = 6;
-// const TOTAL_PAGES = 3;
-// const Home = () => {
-
-//   const triggerRef = useRef(null);
-//   const onGrabData = (currentPage) => {
-//       // This would be where you'll call your API
-//       return new Promise((resolve) => {
-//       setTimeout(() => {
-//           const data = images.slice(
-//           ((currentPage - 1)%TOTAL_PAGES) * NUM_PER_PAGE,
-//           NUM_PER_PAGE * (currentPage%TOTAL_PAGES)
-//           );
-//           console.log(data);
-//           resolve(data);
-//       }, 3000);
-//       });
-//   };
-//   const { data, loading } = useLazyLoad({ triggerRef, onGrabData });
+import ReactLoading from 'react-loading'
 
 
-
+const Home = () => {
   const vipcars = useSelector(state=> state.vipcars);
   const end = useSelector(state=> state.end);
   const premium = useSelector(state=> state.premium);
+  
 
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(()=>{
+    dispatch(getPremium(page));
       dispatch(getVipcars());
       dispatch(getEndadv());
-      dispatch(getPremium());
-  },[dispatch])
+      setLoading(false)
+  },[dispatch,page])
 
-  
+  const load =(()=>{
+    setLoading(true);
+    setTimeout(()=>setPage(prev=>prev+1),1000)
+  })
   return (
     <div className="home">
-       <Cars cars={vipcars} title="VIP ELANLAR"/>
+      <Cars cars={vipcars} title="VIP ELANLAR" category="vipcars"/>
       <div className='end'>
-        <Cars cars={end} title="SON ELANLAR" />
+        <Cars cars={end} title="SON ELANLAR" category="end"/>
       </div>
-        <Cars cars={premium} title="PREMIUM ELANLAR" />
-       
+        <Cars cars={premium} title="PREMIUM ELANLAR" category="premium" />
+<div className='little'>
+    {/* {premium.length <32  ?  
+              loading === false ? */}
+              <button onClick={()=>load() }>Daha çox...</button>
+              :   <ReactLoading type={'bubbles'} color={'black'} height={'10%'} width={'10%'} /> 
+    {/* : ''} */}
+   </div>        
     </div>
-    
   );
-
+}
 
 export default Home

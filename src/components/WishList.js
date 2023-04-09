@@ -3,10 +3,12 @@ import { useSelector } from 'react-redux/es/exports';
 import { useEffect } from 'react';
 
 const WishList = () => {
+    console.log("ffgh")
     const wishList = useSelector(state => state.wishList);
     useEffect(() => {
         localStorage.setItem('wishList', JSON.stringify(wishList));
     });
+  
     return (
         <div className='container'>
             <div className='wishlist'>

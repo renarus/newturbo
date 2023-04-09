@@ -1,0 +1,17 @@
+.little{
+    width: 100%;
+    display: flex;
+    justify-content:center;
+
+button{
+    transition: 1.2s;
+    border: 1px solid red;
+    width: 100px;
+    height: 40px;
+   
+}
+}
+button:hover{
+   background-color:  red;
+   color: white;
+}

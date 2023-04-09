@@ -19,7 +19,7 @@ export const getEndadv = () =>async dispatch => {
 export const getPremium = () =>async dispatch => {
     await axios
         .get(
-            `http://localhost:3001/premium`
+            `http://localhost:3001/premium/?loading=1`
         )
         .then(res =>  dispatch({ type: 'GET_PREMIUM', payload: res.data }));
 
